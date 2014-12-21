@@ -3,4 +3,6 @@ DekiruWebGLDemo
 
 できるWebGLメガデモ制作
 
-SEE: http://kioku-systemk.github.io/DekiruWebGLDemo/
+Online Demo: http://kioku-systemk.github.io/DekiruWebGLDemo/
+
+License: Public Domain
