@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+	<script src="audioplayer.js"></script>
+	<script src="demo.js"></script>
+	<title></title>
+	
+	<script>
+		var resizeFunc = function() {
+			var canvas = document.getElementById('canvas');
+			canvas.setAttribute('width' , window.innerWidth);
+			canvas.setAttribute('height', window.innerHeight);
+		},
+		loadFunc = function () {
+			this.onresize();
+			var btn = document.getElementById('startbtn');
+			btn.addEventListener('click', function () {
+				this.style.display = 'none';
+				document.getElementById("timecode").style.display = "";
+				init(); // -> demo.js
+			});
+		};
+		window.onresize = resizeFunc;
+		window.onload = loadFunc;
+</script>
+
+</head>
+<body style="background-color:#222">
+	
+	<canvas id="canvas" style="position:absolute;left:0px;top:0px;"></canvas>
+	<button id="startbtn" style="position:absolute;left:25px;top:25px;width:200px;height:60px;font-size:30px; background-color:#0C0;border-color:#0F0;border-radius:5px;color:#FFF">START</button>
+	<span id="timecode" style="position:absolute;left:5px;top:5px;font-size:30px;color:#FF0000;display:none">0.000</span><br>
+
+</body>
+</html>
