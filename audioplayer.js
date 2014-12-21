@@ -39,12 +39,19 @@ var AudioPlayer = function (url) {
 	};
 	
 	this.getSpectrumsCount = function () {
-		return this.analyser.frequencyBinCount;
+        return this.analyser.frequencyBinCount;
 	};
 
 	this.getSpectrums = function () {
-		this.analyser.getByteFrequencyData(this.spectrums);
-		return this.spectrums;
+        var i;
+        if (this.audioDOM) {
+            for (i = 0; i < 2048; i = i + 1) {
+                this.spectrums[i] = Math.abs(50 * Math.sin(i)); // dummy
+            }
+        } else {
+            this.analyser.getByteFrequencyData(this.spectrums);
+        }
+        return this.spectrums;
 	};
 	
 	this.getTime = function () {
@@ -59,8 +66,8 @@ var AudioPlayer = function (url) {
 		return this.source.buffer.duration;
 	};
 
-	this.loadMusic = function (filename, callback) {
-		var useAudioDom = true,
+	this.loadMusic = function (filename, use_AudioDom, callback) {
+		var useAudioDom = use_AudioDom,
 			timeFunc,
 			request,
 			loadFunc,

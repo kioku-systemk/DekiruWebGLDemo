@@ -1,36 +1,15 @@
 /*jslint devel: true, browser: true */
-/*global AudioPlayer, requestAnimationFrame*/
+/*global AudioPlayer, requestAnimationFrame, ShaderDrawer*/
+/*global Scene1, Scene2 */
 
 var gl, // WebGL Context
-	sceneFadeIn = function () {
-		'use strict';
-		this.init = function () {
-			
-		};
-		this.draw = function (scenetime) {
-			var fd = scenetime / 4.0;
-			gl.clearColor(fd, fd, fd, 1.0);
-			gl.clear(gl.COLOR_BUFFER_BIT);
-		};
-		this.init();
-		return this;
-	},
-	scene1 = function () {
-		'use strict';
-		this.init = function () {
-			
-		};
-		this.draw = function (scenetime) {
-			gl.clearColor(0.0, 1.0, 0.0, 1.0);
-			gl.clear(gl.COLOR_BUFFER_BIT);
-		};
-		this.init();
-		return this;
-	},
 	sceneTable = [
-		{'sceneClass': sceneFadeIn, 'time': 4.0},
-		{'sceneClass': scene1,      'time': 8.0}
-	],
+		{'sceneClass': Scene4, 'time': 7.2},
+		{'sceneClass': Scene3, 'time': 7.2},
+        {'sceneClass': Scene1, 'time': 7.2},
+		{'sceneClass': Scene2, 'time': 7.8},
+		{'sceneClass': SceneE, 'time': 10.0}
+    ],
 	audioPlayer = new AudioPlayer(),
 	render = function () {
 		'use strict';
@@ -49,7 +28,7 @@ var gl, // WebGL Context
 		// Draw scene
 		for (i = 0; i < sceneTable.length; i = i + 1) {
 			if (demotime < sceneTable[i].end) {
-				sceneTable[i].sceneInst.draw(demotime - sceneTable[i].start);
+				sceneTable[i].sceneInst.draw(demotime - sceneTable[i].start, spectrums, wave);
 				break;
 			}
 		}
@@ -77,7 +56,30 @@ var gl, // WebGL Context
 		}
 		
 		// Music
-		audioPlayer.loadMusic('music.mp3', function () {
+		audioPlayer.loadMusic('music.mp3', true, function () {
 			requestAnimationFrame(render); // START
 		});
-	};
+	},
+
+	resizeFunc = function () {
+        'use strict';
+        var canvas = document.getElementById('canvas');
+        canvas.setAttribute('width', window.innerWidth);
+        canvas.setAttribute('height', window.innerHeight);
+    },
+    loadFunc = function () {
+		'use strict';
+        this.onresize();
+        var btn = document.getElementById('startbtn'),
+            timecode = document.getElementById("timecode");
+        btn.addEventListener('click', function () {
+            this.style.display = 'none';
+            if (timecode) {
+                timecode.style.display = "";
+            }
+            init();
+        });
+    };
+
+window.onresize = resizeFunc;
+window.onload = loadFunc;
